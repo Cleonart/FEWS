@@ -1,0 +1,144 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<title>Early Warning System | LaSalle</title>
+	<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
+	<script src="core/jquery/jquery-2.1.0.min.js"></script>
+	<script src="core/jquery/jquery.nouislider.min.js"></script>
+	<script src="core/jquery/jquery.knob.js"></script>
+	<script src="core/jquery/insQ.min.js"></script>
+	<script src="settings.js"></script>
+	<script src="core/bridge.js"></script>
+	<script src="core/framework.js"></script>
+	<script type="text/javascript" src="core/vue.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/framework.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+
+<body>
+	
+	<div id="app">
+		
+
+		<!-- SENSOR READ -->
+		<p style="display: none;" id="beacon0" class="ard show A0"></p>
+		<p style="display: none;" id="beacon1" class="ard show A1"></p>
+		<p style="display: none;" id="beacon2" class="ard show A2"></p>
+		<p style="display: none;" id="beacon3" class="ard show A3"></p>
+		<p style="display: none;" id="beacon4" class="ard show A4"></p>
+
+		<div class="main">
+
+			<div class="mainLeft">
+
+				<div class="sideBar">
+
+					<div class="fewsLogoContainer">
+
+						<p class="fewsLogo">FEWS</p>
+						<div class="lineSept"></div>
+
+						<div class="fewsLogo-2">
+							<p>Flood Early</p>
+							<p style="margin-top: -65px;">Warning System</p>
+						</div>
+					</div>
+
+					<p id="date_and_time">Sunday, 4 November 2018</p>
+					<p id="times">TIME</p>
+
+				</div>
+
+			</div>
+
+			<!-- GRAPH VISUALISATION -->
+			<div class="graph" >
+
+				<div class="headerGraph">
+					<h2 class="headGraph">Node Visualization</h2>	
+				</div>
+				
+				<div class="graphCanvas">				
+
+					<!-- Graph Beacon Visual -->
+					<div v-for="beacon in beacons_data" :key = "beacon.id">
+							
+						<!-- Data Sensor -->
+						<span v-bind:style="{ top: beacon.y - 20 + 'px', left: beacon.x - 10 + 5 + 'px' }"  class="headBeacon">{{beacon.dataSensor}}</span>
+
+						<!-- Beacon -->
+						<div class="beaconContainer" v-bind:style="{ top: beacon.y + 'px', left: beacon.x + 'px' }" >
+
+							<div class="beacon" v-bind:class="{ green  : (beacon.dataSensor >= 600),
+																yellow : (beacon.dataSensor < 600 && beacon.dataSensor >= 300),
+																red    : (beacon.dataSensor < 300)}">{{beacon.id + 1}}</div>						
+						</div>
+
+						<!-- Indicator -->
+						<transition name="slide-fade">
+							<div class="indicator" v-if="beacon.dataSensor <= 200 && beacon.dataSensor > 0" v-bind:style="{ top: beacon.y + 20 + 'px', left: beacon.x + 50 + 'px' }">
+								<p>Flood Potential</p>
+							</div>
+						</transition>
+							
+						<transition name="slide-fade">
+							<div class="indicator" v-if="beacon.dataSensor == 0" v-bind:style="{ top: beacon.y + 20 + 'px', left: beacon.x + 50 + 'px' }">
+								<p>Disconnected</p>
+							</div>
+						</transition>
+
+					</div>
+					
+					<div class="line" id="line0"></div>
+					<div class="line" id="line1"></div>
+					<div class="line" id="line2"></div>
+					<div class="line" id="line3"></div>
+					<div class="line" id="line4"></div>
+					<div class="line" id="line5"></div>
+					<div class="line" id="line6"></div>
+					<div class="line" id="line7"></div>
+					<div class="line" id="line8"></div>
+					<div class="line" id="line9"></div>
+					<div class="line" id="line10"></div>
+					<div class="line" id="line11"></div>
+					<div class="line" id="line12"></div>
+					<div class="line" id="line13"></div>
+					<div class="line" id="line14"></div>
+					<div class="line" id="line15"></div>
+					<div class="line" id="line16"></div>
+					<div class="line" id="line17"></div>
+					<div class="line" id="line18"></div>
+					<div class="line" id="line19"></div>
+					<div class="line" id="line20"></div>
+
+				</div>
+
+				<div class="legendGraph">
+					
+					<div class="legendGraphLeft">
+						<div class="legendGraphOption lgoption-1 green"></div>
+						<div class="legendGraphOption lgoption-2 yellow"></div>
+						<div class="legendGraphOption lgoption-3 red"></div>
+					</div>
+
+					<div class="legendGraphRight">
+						<p>: Low level flood possibilities</p>
+						<p>: Medium level flood possibilities</p>
+						<p>: High level flood possibilities</p>
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>	
+
+	</div>	
+	
+	<script type="text/javascript" src="js/clock.js"></script>	
+	<script type="text/javascript" src="js/line_create.js"></script>	
+	<script type="text/javascript" src="js/main.js"></script>
+
+</body>
+		
+</html>
